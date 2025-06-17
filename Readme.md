@@ -46,7 +46,7 @@ NetPulse automates this process with a smart dashboard that:
 
 ## 📸 Screenshots
 
-*(Add screenshots here once frontend is complete)*
+![Screenshot 2025-06-17 164049](https://github.com/user-attachments/assets/23c678cd-b527-411a-8631-2cbed3dcdeb7)
 
 ---
 
