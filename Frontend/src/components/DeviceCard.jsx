@@ -1,15 +1,13 @@
-import React from 'react';
-import { Device } from '../types/device';
-import { Card, CardContent } from './ui/Card';
-import { Badge } from './ui/Badge';
-import { Button } from './ui/Button';
-import { 
-  Server, 
-  Printer, 
-  Router, 
-  Network, 
-  Camera, 
-  Monitor, 
+import { Card, CardContent } from "./ui/Card";
+import { Badge } from "./ui/Badge";
+import { Button } from "./ui/Button";
+import {
+  Server,
+  Printer,
+  Router,
+  Network,
+  Camera,
+  Monitor,
   HardDrive,
   CheckCircle,
   XCircle,
@@ -17,62 +15,74 @@ import {
   HelpCircle,
   Zap,
   Clock,
-  MapPin
-} from 'lucide-react';
-import { formatResponseTime, formatUptime } from '../utils/deviceUtils';
-import { clsx } from 'clsx';
+  MapPin,
+} from "lucide-react";
+import { formatResponseTime, formatUptime } from "../utils/deviceUtils";
+import { clsx } from "clsx";
 
-interface DeviceCardProps {
-  device: Device;
-  onPing: (deviceId: string) => void;
-  onEdit: (device: Device) => void;
-  onDelete: (deviceId: string) => void;
-}
-
-const getDeviceIcon = (type: string) => {
+const getDeviceIcon = (type) => {
   switch (type) {
-    case 'server': return Server;
-    case 'printer': return Printer;
-    case 'router': return Router;
-    case 'switch': return Network;
-    case 'camera': return Camera;
-    case 'workstation': return Monitor;
-    default: return HardDrive;
+    case "server":
+      return Server;
+    case "printer":
+      return Printer;
+    case "router":
+      return Router;
+    case "switch":
+      return Network;
+    case "camera":
+      return Camera;
+    case "workstation":
+      return Monitor;
+    default:
+      return HardDrive;
   }
 };
 
-const getStatusIcon = (status: string) => {
+const getStatusIcon = (status) => {
   switch (status) {
-    case 'online': return CheckCircle;
-    case 'offline': return XCircle;
-    case 'checking': return Loader;
-    default: return HelpCircle;
+    case "online":
+      return CheckCircle;
+    case "offline":
+      return XCircle;
+    case "checking":
+      return Loader;
+    default:
+      return HelpCircle;
   }
 };
 
-const getStatusColor = (status: string) => {
+const getStatusColor = (status) => {
   switch (status) {
-    case 'online': return 'text-success-500';
-    case 'offline': return 'text-error-500';
-    case 'checking': return 'text-warning-500';
-    default: return 'text-dark-400';
+    case "online":
+      return "text-success-500";
+    case "offline":
+      return "text-error-500";
+    case "checking":
+      return "text-warning-500";
+    default:
+      return "text-dark-400";
   }
 };
 
-const getStatusBadgeVariant = (status: string): 'success' | 'error' | 'warning' | 'neutral' => {
+const getStatusBadgeVariant = (status) => {
   switch (status) {
-    case 'online': return 'success';
-    case 'offline': return 'error';
-    case 'checking': return 'warning';
-    default: return 'neutral';
+    case "online":
+      return "success";
+    case "offline":
+      return "error";
+    case "checking":
+      return "warning";
+    default:
+      return "neutral";
   }
 };
 
-export const DeviceCard: React.FC<DeviceCardProps> = ({ device, onPing, onEdit, onDelete }) => {
+export const DeviceCard = ({ device, onPing, onEdit, onDelete }) => {
   const DeviceIcon = getDeviceIcon(device.type);
   const StatusIcon = getStatusIcon(device.status);
   const statusColor = getStatusColor(device.status);
-  const isChecking = device.status === 'checking';
+  const isChecking = device.status === "checking";
 
   return (
     <Card hover className="animate-fade-in">
@@ -83,12 +93,23 @@ export const DeviceCard: React.FC<DeviceCardProps> = ({ device, onPing, onEdit, 
               <DeviceIcon className="h-8 w-8 text-dark-600" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-dark-900">{device.name}</h3>
+              <h3 className="text-lg font-semibold text-dark-900">
+                {device.name}
+              </h3>
               <p className="text-sm text-dark-600 font-mono">{device.ip}</p>
             </div>
           </div>
-          <Badge variant={getStatusBadgeVariant(device.status)} className="flex items-center space-x-1">
-            <StatusIcon className={clsx('h-3 w-3', statusColor, isChecking && 'animate-spin')} />
+          <Badge
+            variant={getStatusBadgeVariant(device.status)}
+            className="flex items-center space-x-1"
+          >
+            <StatusIcon
+              className={clsx(
+                "h-3 w-3",
+                statusColor,
+                isChecking && "animate-spin"
+              )}
+            />
             <span className="capitalize">{device.status}</span>
           </Badge>
         </div>
@@ -98,7 +119,7 @@ export const DeviceCard: React.FC<DeviceCardProps> = ({ device, onPing, onEdit, 
             <MapPin className="h-4 w-4" />
             <span>{device.location}</span>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="flex items-center space-x-2">
               <Zap className="h-4 w-4 text-dark-500" />
@@ -131,15 +152,11 @@ export const DeviceCard: React.FC<DeviceCardProps> = ({ device, onPing, onEdit, 
             disabled={isChecking}
             isLoading={isChecking}
           >
-            {isChecking ? 'Pinging...' : 'Ping'}
+            {isChecking ? "Pinging..." : "Ping"}
           </Button>
-          
+
           <div className="flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onEdit(device)}
-            >
+            <Button variant="ghost" size="sm" onClick={() => onEdit(device)}>
               Edit
             </Button>
             <Button

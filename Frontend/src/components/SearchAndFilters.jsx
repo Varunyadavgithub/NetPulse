@@ -1,23 +1,7 @@
-import React from 'react';
-import { Search, Filter, RefreshCw } from 'lucide-react';
-import { Button } from './ui/Button';
-import { DeviceType, DeviceStatus } from '../types/device';
+import { Search, RefreshCw } from "lucide-react";
+import { Button } from "./ui/Button";
 
-interface SearchAndFiltersProps {
-  searchTerm: string;
-  onSearchChange: (term: string) => void;
-  selectedLocation: string;
-  onLocationChange: (location: string) => void;
-  selectedType: DeviceType | 'all';
-  onTypeChange: (type: DeviceType | 'all') => void;
-  selectedStatus: DeviceStatus | 'all';
-  onStatusChange: (status: DeviceStatus | 'all') => void;
-  locations: string[];
-  onPingAll: () => void;
-  isPinging: boolean;
-}
-
-export const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
+export const SearchAndFilters = ({
   searchTerm,
   onSearchChange,
   selectedLocation,
@@ -28,7 +12,7 @@ export const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
   onStatusChange,
   locations,
   onPingAll,
-  isPinging
+  isPinging,
 }) => {
   return (
     <div className="bg-white rounded-xl border border-dark-200 p-6 mb-8 animate-fade-in">
@@ -53,15 +37,17 @@ export const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
             onChange={(e) => onLocationChange(e.target.value)}
           >
             <option value="">All Locations</option>
-            {locations.map(location => (
-              <option key={location} value={location}>{location}</option>
+            {locations.map((location) => (
+              <option key={location} value={location}>
+                {location}
+              </option>
             ))}
           </select>
 
           <select
             className="px-3 py-2 border border-dark-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white"
             value={selectedType}
-            onChange={(e) => onTypeChange(e.target.value as DeviceType | 'all')}
+            onChange={(e) => onTypeChange(e.target.value)}
           >
             <option value="all">All Types</option>
             <option value="server">Server</option>
@@ -76,7 +62,7 @@ export const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
           <select
             className="px-3 py-2 border border-dark-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white"
             value={selectedStatus}
-            onChange={(e) => onStatusChange(e.target.value as DeviceStatus | 'all')}
+            onChange={(e) => onStatusChange(e.target.value)}
           >
             <option value="all">All Status</option>
             <option value="online">Online</option>
@@ -90,7 +76,9 @@ export const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
             isLoading={isPinging}
             className="flex items-center space-x-2"
           >
-            <RefreshCw className={`h-4 w-4 ${isPinging ? 'animate-spin' : ''}`} />
+            <RefreshCw
+              className={`h-4 w-4 ${isPinging ? "animate-spin" : ""}`}
+            />
             <span>Ping All</span>
           </Button>
         </div>

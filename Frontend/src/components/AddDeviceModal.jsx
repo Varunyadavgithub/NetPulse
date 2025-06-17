@@ -1,73 +1,60 @@
-import React, { useState } from 'react';
-import { X, Plus } from 'lucide-react';
-import { Button } from './ui/Button';
-import { DeviceType } from '../types/device';
-import { isValidIP } from '../utils/deviceUtils';
+import { useState } from "react";
+import { X, Plus } from "lucide-react";
+import { Button } from "./ui/Button";
+import { isValidIP } from "../utils/deviceUtils";
 
-interface AddDeviceModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onAdd: (device: {
-    name: string;
-    ip: string;
-    location: string;
-    type: DeviceType;
-    description?: string;
-  }) => void;
-}
-
-export const AddDeviceModal: React.FC<AddDeviceModalProps> = ({ isOpen, onClose, onAdd }) => {
+export const AddDeviceModal = ({ isOpen, onClose, onAdd }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    ip: '',
-    location: '',
-    type: 'server' as DeviceType,
-    description: ''
+    name: "",
+    ip: "",
+    location: "",
+    type: "server",
+    description: "",
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState({});
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {};
+    const newErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Device name is required';
+      newErrors.name = "Device name is required";
     }
 
     if (!formData.ip.trim()) {
-      newErrors.ip = 'IP address is required';
+      newErrors.ip = "IP address is required";
     } else if (!isValidIP(formData.ip)) {
-      newErrors.ip = 'Please enter a valid IP address';
+      newErrors.ip = "Please enter a valid IP address";
     }
 
     if (!formData.location.trim()) {
-      newErrors.location = 'Location is required';
+      newErrors.location = "Location is required";
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
       onAdd(formData);
       setFormData({
-        name: '',
-        ip: '',
-        location: '',
-        type: 'server',
-        description: ''
+        name: "",
+        ip: "",
+        location: "",
+        type: "server",
+        description: "",
       });
       setErrors({});
       onClose();
     }
   };
 
-  const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const handleChange = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '' }));
+      setErrors((prev) => ({ ...prev, [field]: "" }));
     }
   };
 
@@ -97,13 +84,15 @@ export const AddDeviceModal: React.FC<AddDeviceModalProps> = ({ isOpen, onClose,
             <input
               type="text"
               className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors ${
-                errors.name ? 'border-error-500' : 'border-dark-300'
+                errors.name ? "border-error-500" : "border-dark-300"
               }`}
               value={formData.name}
-              onChange={(e) => handleChange('name', e.target.value)}
+              onChange={(e) => handleChange("name", e.target.value)}
               placeholder="Enter device name"
             />
-            {errors.name && <p className="text-error-500 text-sm mt-1">{errors.name}</p>}
+            {errors.name && (
+              <p className="text-error-500 text-sm mt-1">{errors.name}</p>
+            )}
           </div>
 
           <div>
@@ -113,13 +102,15 @@ export const AddDeviceModal: React.FC<AddDeviceModalProps> = ({ isOpen, onClose,
             <input
               type="text"
               className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors font-mono ${
-                errors.ip ? 'border-error-500' : 'border-dark-300'
+                errors.ip ? "border-error-500" : "border-dark-300"
               }`}
               value={formData.ip}
-              onChange={(e) => handleChange('ip', e.target.value)}
+              onChange={(e) => handleChange("ip", e.target.value)}
               placeholder="192.168.1.100"
             />
-            {errors.ip && <p className="text-error-500 text-sm mt-1">{errors.ip}</p>}
+            {errors.ip && (
+              <p className="text-error-500 text-sm mt-1">{errors.ip}</p>
+            )}
           </div>
 
           <div>
@@ -129,13 +120,15 @@ export const AddDeviceModal: React.FC<AddDeviceModalProps> = ({ isOpen, onClose,
             <input
               type="text"
               className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors ${
-                errors.location ? 'border-error-500' : 'border-dark-300'
+                errors.location ? "border-error-500" : "border-dark-300"
               }`}
               value={formData.location}
-              onChange={(e) => handleChange('location', e.target.value)}
+              onChange={(e) => handleChange("location", e.target.value)}
               placeholder="Server Room"
             />
-            {errors.location && <p className="text-error-500 text-sm mt-1">{errors.location}</p>}
+            {errors.location && (
+              <p className="text-error-500 text-sm mt-1">{errors.location}</p>
+            )}
           </div>
 
           <div>
@@ -145,7 +138,7 @@ export const AddDeviceModal: React.FC<AddDeviceModalProps> = ({ isOpen, onClose,
             <select
               className="w-full px-3 py-2 border border-dark-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white"
               value={formData.type}
-              onChange={(e) => handleChange('type', e.target.value)}
+              onChange={(e) => handleChange("type", e.target.value)}
             >
               <option value="server">Server</option>
               <option value="printer">Printer</option>
@@ -165,7 +158,7 @@ export const AddDeviceModal: React.FC<AddDeviceModalProps> = ({ isOpen, onClose,
               className="w-full px-3 py-2 border border-dark-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
               rows={3}
               value={formData.description}
-              onChange={(e) => handleChange('description', e.target.value)}
+              onChange={(e) => handleChange("description", e.target.value)}
               placeholder="Additional notes about this device..."
             />
           </div>
@@ -174,9 +167,7 @@ export const AddDeviceModal: React.FC<AddDeviceModalProps> = ({ isOpen, onClose,
             <Button variant="secondary" onClick={onClose} type="button">
               Cancel
             </Button>
-            <Button type="submit">
-              Add Device
-            </Button>
+            <Button type="submit">Add Device</Button>
           </div>
         </form>
       </div>
